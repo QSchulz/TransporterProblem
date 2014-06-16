@@ -105,7 +105,7 @@ void parse(char* path, int* nbProduits, int* nbClients, int* capa, float* coutTr
 					std::cout << "\t" << (i+1);
 				std::cout << "\nclts :  ";
 				copystring = strtok(copy, ":;");
-				while(copystring)
+				while(copystring && k<*nbProduits)
 				{
 					copystring = strtok(NULL, ":;");
 					/*	le num du client qui demande le job est dans copystring => tester si NULL	*/
@@ -123,7 +123,7 @@ void parse(char* path, int* nbProduits, int* nbClients, int* capa, float* coutTr
 				i=0;
 				std::cout << "date : ";
 				copystring = strtok(copy, ":;");
-				while(copystring)
+				while(copystring && k<*nbProduits)
 				{
 					copystring = strtok(NULL, ";");
 					if(copystring)
