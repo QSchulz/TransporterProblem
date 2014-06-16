@@ -9,9 +9,39 @@ Livraison* livraison_optimale=NULL;
 int CAPA=0;
 float ETA=0.f;
 
-void merge(std::vector<Commande>* restant, Commande lastElement, Livraison* livraison)
+void permut(std::vector<Commande> restant, Livraison livraison);
+void merge(std::vector<Commande> restant, Commande lastElement, Livraison livraison);
+
+void merge(std::vector<Commande> restant, Commande lastElement, Livraison livraison)
 {
-	//TODO
+	int i(0);
+	std::vector<Commande>::iterator it = restant.begin();
+	std::vector<Commande>::iterator end = restant.end();
+	bool firstTime=true;
+	while(it != end && i<CAPA)
+	{
+		Commande commande = *it;
+		if (commande.getClient() == lastElement.getClient())
+		{
+			Trajet temp = livraison.getTrajets().back();
+			temp.addCommande(commande);
+			if (livraison.changeLast(temp, false) && (livraison_optimale==NULL ||  livraison.getCout()<=livraison_optimale->getCout())){
+				std::vector<Commande> permut_commandes(restant);
+				std::vector<Commande>::iterator iter = permut_commandes.begin();
+				for (int k(0); k<i; k++)
+					iter++;
+				permut_commandes.erase(iter);
+
+				permut(permut_commandes, livraison);
+			}
+			else
+			//La dernière commande ajoutée a fait dépasser le coût optimal actuel => ca ne sert à rien de regarder les commandes suivantes (même client = même cout de stockage)
+				break;
+			
+		}
+		i++;
+		it++;
+	}
 }
 
 void check_validity(std::vector<Commande>* commandes)
@@ -59,7 +89,7 @@ void permut(std::vector<Commande> restant, Livraison livraison)
 				iter++;
 			merge_commandes.erase(iter);
 			//checker le merge de commandes pour le même client
-			merge(&merge_commandes, commande, &livraison);
+			merge(merge_commandes, commande, livraison);
 			permut(merge_commandes, livraison);
 		}
 		i++;

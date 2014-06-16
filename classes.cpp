@@ -1,6 +1,6 @@
 #include "classes.h"
 
-Client::Client(int _numero, float _cout_stockage, int _distance):numero(_numero), cout_stockage(_cout_stockage), distance_fournisseur(_distance){};
+Client::Client(int _numero, float _cout_stockage, int _distance):numero(_numero+1), cout_stockage(_cout_stockage), distance_fournisseur(_distance){};
 
 float Client::getCoutStockage(){
 	return cout_stockage;
@@ -15,7 +15,7 @@ int Client::getDistanceFournisseur(){
 }
 
 
-Commande::Commande(Client* _client, int _quantite, float _date_limite, int _numero):client(_client), quantite(_quantite), date_limite(_date_limite), numero(_numero){};
+Commande::Commande(Client* _client, int _quantite, float _date_limite, int _numero):client(_client), quantite(_quantite), date_limite(_date_limite), numero(_numero+1){};
 
 Client* Commande::getClient(){
 	return client;
@@ -131,7 +131,18 @@ bool Livraison::changeLast(Trajet trajet, bool firstTime){
 }
 
 std::ostream& operator<<(std::ostream& out, const Livraison& livraison){
-	out << livraison.date_depart << std::endl << livraison.cout << std::endl;
+	out << "Livraison date depart: " << livraison.date_depart << std::endl << "Livraison cout: " << livraison.cout << std::endl;
+	int i(0);
+	for (Trajet trajet : livraison.trajets)
+	{
+		out << "-------------------------\nTrajet "<< i++ << ":\nDate départ:" << trajet.getDateDepart() << std::endl;
+		for (Commande commande : trajet.getCommandes())
+			out << commande;		
+	}
 	return out;
 }
 
+std::ostream& operator<<(std::ostream& out, const Commande& commande){
+	out << "Commande " << commande.numero << " au client " << commande.client->getNumero() << std::endl;
+	return out;
+}

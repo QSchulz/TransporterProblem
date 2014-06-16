@@ -83,8 +83,8 @@ void parse(char* path, int* nbProduits, int* nbClients, int* capa, float* coutTr
 					copystring = strtok(copy, ":");
 					copystring = strtok(NULL, ":");
 					clients->push_back(Client(numclient, cout, atoi(copystring)));
-					std::cout << "temps de transport du fournisseur au client " << numclient << " : " << atoi(copystring) << std::endl;
-					std::cout << "coût de stockage chez le client " << numclient << " : " << clients->back().getCoutStockage() << std::endl;
+					std::cout << "temps de transport du fournisseur au client " << numclient+1 << " : " << atoi(copystring) << std::endl;
+					std::cout << "coût de stockage chez le client " << numclient+1 << " : " << clients->back().getCoutStockage() << std::endl;
 		
 					if(i < (*nbClients)-1)
 					{

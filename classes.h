@@ -34,7 +34,8 @@ class Commande{
 		void setQuantite(int quantite);
 		float getDateLimite();
 		int getNumero();
-		float getCout(float date_livraison);		
+		float getCout(float date_livraison);	
+		friend std::ostream& operator<<(std::ostream& out, const Commande& commande);	
 };
 
 class Trajet{
